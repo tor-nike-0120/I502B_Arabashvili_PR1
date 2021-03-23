@@ -7,11 +7,10 @@ using namespace std;
 
 class Kompleks{
     public:
-        float deistv, mnim;
-        string name;
+        double deistv, mnim;
     public:
         Kompleks();
-        Kompleks(float, float, string);
+        Kompleks(double, double);
         ~Kompleks();
 
         Kompleks(const Kompleks &other){
@@ -19,24 +18,23 @@ class Kompleks{
             setMnim(other.mnim);
         }
 
-        float getDeistv(){return deistv;}
-        float getMnim(){return mnim;}
-        string getName(){return name;}
+        double getDeistv(){return deistv;}
+        double getMnim(){return mnim;}
 
-        void setDeistv(float a){ deistv = a; }
-        void setMnim(float a){ mnim = a; }
+        void setDeistv(double a){ deistv = a; }
+        void setMnim(double a){ mnim = a; }
 
         void Print(){
             if (mnim < 0)
-                cout << /*"Kompleksnoe chislo " <<*/ name << " = " << deistv << mnim << "i" << endl;
+                cout <<  deistv << mnim << "i";
             else
                 if (mnim == 0)
-                    cout << /*"Kompleksnoe chislo " <<*/ name << " = " << deistv << endl;
+                    cout << deistv;
                 else
                     if (mnim == 1)
-                        cout << /*"Комплексное число " <<*/ name << " = " << deistv << "+i" << endl;
+                        cout << deistv << "+i";
                     else
-                        cout << /*"Комплексное число " <<*/ name << " = " << deistv << "+" << mnim << "i" << endl;
+                        cout << deistv << "+" << mnim << "i";
         }
 
         void Scan(){
@@ -51,25 +49,33 @@ class Kompleks{
             mnim = x;
         }
 
-        float Modul(){return sqrt(deistv * deistv + mnim * mnim);}
+        double Modul(){return sqrt(deistv * deistv + mnim * mnim);}
 
-        void operator * (const Kompleks &other){
-            this->deistv = this->deistv * other.deistv - this->mnim * other.mnim;
-            this->mnim = this->deistv * other.mnim + this->mnim * other.deistv;
+        Kompleks operator * (const Kompleks &other){
+            Kompleks w;
+            w.deistv = this->deistv * other.deistv - this->mnim * other.mnim;
+            w.mnim = this->deistv * other.mnim + this->mnim * other.deistv;
+            return w;
         }
 
-        void operator * (float x){
-            this->deistv *= x;
-            this->mnim *= x;
+        Kompleks operator * (double x){
+            Kompleks w;
+            w.deistv = this->deistv = x;
+            w.mnim = this->mnim *= x;
+            return w;
         }
 
-        void operator + (const Kompleks &other){
-            this->deistv = this->deistv + other.deistv;
-            this->mnim = other.mnim + this->mnim;
+        Kompleks operator + (const Kompleks &other){
+            Kompleks w;
+            w.deistv = this->deistv + other.deistv;
+            w.deistv = other.mnim + this->mnim;
+            return w;
         }
 
-        void operator + (float x){
-            this->deistv += x;
+        Kompleks operator + (double x){
+            Kompleks w;
+            w.deistv = this->deistv + x;
+            return w;
         }
 
         void operator -= (const Kompleks &other){
@@ -81,19 +87,17 @@ class Kompleks{
 Kompleks :: Kompleks(){
     deistv = 1;
     mnim = 1;
-    name = "NoName";
-    cout << "Konstruktor bez parametrov dlya " << name << " ( " << this << " )" << " srabotal!" << endl << endl;
+    cout << "Konstruktor bez parametrov dlya ( " << this << " )" << " srabotal!" << endl << endl;
 }
 
-Kompleks :: Kompleks(float a, float b, string n){
+Kompleks :: Kompleks(double a, double b){
     deistv = a;
     mnim = b;
-    name = n;
-    cout << "Konstruktor s parametrami dlya " << name << " ( " << this << " )" << " srabotal!" << endl << endl;
+    cout << "Konstruktor s parametrami dlya ( " << this << " )" << " srabotal!" << endl << endl;
 }
 
 Kompleks :: ~Kompleks(){
-    cout << "Destruktor dlya " << name << " ( " << this << " )" << " srabotal!" << endl << endl;
+    cout << "Destruktor dlya ( " << this << " )" << " srabotal!" << endl << endl;
 }
 
 int main()
@@ -101,7 +105,7 @@ int main()
     setlocale(LC_ALL, "Russian");
 
     int x = 1, p;
-    Kompleks a, b(1, 1, "Kompl 2");
+    Kompleks a, b(1, 1), q;
     system ("pause");
 
     while (x){
@@ -119,7 +123,7 @@ int main()
         cout << "9) KCH * CH" << endl;
         cout << "10) KCH + KCH" << endl;
         cout << "11) KCH + CH" << endl;
-        cout << "12) KCH - KCH" << endl;
+        cout << "12) KCH -= KCH" << endl;
         cout << endl << "0) Vihod" << endl;
 
         cout << "Vvedite nomer operatsii: ";
@@ -165,14 +169,15 @@ int main()
                 break;
             case 8:
                 system ("cls");
-                cout << "Dlya " << b.getName() << endl;
                 b.Scan();
                 system ("cls");
+                q = a * b;
                 a.Print();
+                cout << " * ";
                 b.Print();
-                cout << a.getName() << " * " << b.getName() << ": " << endl;
-                a * b;
-                a.Print();
+                cout << " = ";
+                q.Print();
+                cout << endl;
                 system ("pause");
                 break;
             case 9:
@@ -180,21 +185,24 @@ int main()
                 cout << "Vvedite chislo: ";
                 cin >> p;
                 system ("cls");
-                cout << a.getName() << " * " << p << ": " << endl;
-                a * p;
+                q = a * p;
                 a.Print();
+                cout << " * " << p << " = " << endl;
+                q.Print();
+                cout << endl;
                 system ("pause");
                 break;
             case 10:
                 system ("cls");
-                cout << "Dlya " << b.getName() << endl;
                 b.Scan();
                 system ("cls");
+                q = a + b;
                 a.Print();
+                cout << " + ";
                 b.Print();
-                cout << a.getName() << " + " << b.getName() << ": " << endl;
-                a + b;
-                a.Print();
+                cout << " = ";
+                q.Print();
+                cout << endl;
                 system ("pause");
                 break;
             case 11:
@@ -202,21 +210,24 @@ int main()
                 cout << "Vvedite chislo: ";
                 cin >> p;
                 system ("cls");
-                cout << a.getName() << " + " << p << ": " << endl;
-                a + p;
+                q = a + p;
                 a.Print();
+                cout << " + " << p << " = " << endl;
+                q.Print();
+                cout << endl;
                 system ("pause");
                 break;
             case 12:
                 system ("cls");
-                cout << "Dlya " << b.getName() << endl;
                 b.Scan();
                 system ("cls");
                 a.Print();
+                cout << " -= ";
                 b.Print();
-                cout << a.getName() << " - " << b.getName() << ": " << endl;
+                cout << ": ";
                 a -= b;
                 a.Print();
+                cout << endl;
                 system ("pause");
                 break;
         }
