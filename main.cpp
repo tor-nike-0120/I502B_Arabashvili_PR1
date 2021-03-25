@@ -6,7 +6,6 @@
 using namespace std;
 
 class Kompleks{
-    public:
         double deistv, mnim;
     public:
         Kompleks();
@@ -60,8 +59,8 @@ class Kompleks{
 
         Kompleks operator * (double x){
             Kompleks w;
-            w.deistv = this->deistv = x;
-            w.mnim = this->mnim *= x;
+            w.deistv = this->deistv * x;
+            w.mnim = this->mnim * x;
             return w;
         }
 
@@ -75,6 +74,7 @@ class Kompleks{
         Kompleks operator + (double x){
             Kompleks w;
             w.deistv = this->deistv + x;
+            w.mnim = this->mnim;
             return w;
         }
 
@@ -212,7 +212,7 @@ int main()
                 system ("cls");
                 q = a + p;
                 a.Print();
-                cout << " + " << p << " = " << endl;
+                cout << " + " << p << " = ";
                 q.Print();
                 cout << endl;
                 system ("pause");
