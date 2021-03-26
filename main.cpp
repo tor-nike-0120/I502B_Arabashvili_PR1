@@ -67,7 +67,7 @@ class Kompleks{
         Kompleks operator + (const Kompleks &other){
             Kompleks w;
             w.deistv = this->deistv + other.deistv;
-            w.deistv = other.mnim + this->mnim;
+            w.mnim = other.mnim + this->mnim;
             return w;
         }
 
@@ -78,9 +78,10 @@ class Kompleks{
             return w;
         }
 
-        void operator -= (const Kompleks &other){
+        Kompleks operator -= (const Kompleks &other){
             this->deistv = this->deistv - other.deistv;
             this->mnim = this->mnim - other.mnim;
+            return Kompleks(*this);
         }
 };
 
